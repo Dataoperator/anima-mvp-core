@@ -1,0 +1,23 @@
+{
+  "canisters": {
+    "anima": {
+      "candid": "src/anima.did",
+      "package": "anima",
+      "type": "rust"
+    },
+    "anima_assets": {
+      "dependencies": ["anima"],
+      "frontend": {
+        "entrypoint": "src/index.html"
+      },
+      "source": ["dist/"],
+      "type": "assets"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:4943"
+    }
+  },
+  "version": 1
+}
