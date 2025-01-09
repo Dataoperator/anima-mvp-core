@@ -20,6 +20,14 @@
       "packtool": ""
     }
   },
-  "output_env_file": ".env",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:4943"
+    },
+    "ic": {
+      "providers": ["https://mainnet.dfinity.network"],
+      "type": "persistent"
+    }
+  },
   "version": 1
 }
