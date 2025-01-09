@@ -5,18 +5,12 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 
 #[derive(CandidType, Clone, Deserialize)]
-pub struct MintResult {
-    token_id: u64,
-    designation: String,
-}
-
-#[derive(CandidType, Clone, Deserialize)]
 pub struct PaymentRecord {
     principal: Principal,
     memo: u64,
     timestamp: u64,
     amount: u64,
-    status: String,  // "pending" or "completed"
+    status: String,
 }
 
 #[derive(CandidType, Clone, Deserialize)]
@@ -27,6 +21,18 @@ pub struct AnimaData {
     level: u64,
     experience: u64,
     payment_memo: u64,
+}
+
+#[derive(CandidType, Clone, Deserialize)]
+pub struct MintResult {
+    token_id: u64,
+    designation: String,
+}
+
+#[derive(CandidType, Clone, Deserialize)]
+pub struct InteractionResponse {
+    message: String,
+    experience_gained: u64,
 }
 
 thread_local! {
@@ -48,7 +54,7 @@ async fn register_payment(caller: Principal, memo: u64) -> Result<(), String> {
             principal: caller,
             memo,
             timestamp: ic_cdk::api::time(),
-            amount: 100_000_000, // 1 ICP in e8s
+            amount: 100_000_000,
             status: "pending".to_string(),
         };
         state.payments.insert(memo, payment);
@@ -120,21 +126,14 @@ async fn interact(token_id: u64, message: Option<String>) -> Result<InteractionR
         let anima = state.animas.get_mut(&token_id)
             .ok_or("ANIMA not found")?;
         
-        // Simple interaction logic
         anima.experience += 10;
         if anima.experience >= anima.level * 100 {
             anima.level += 1;
         }
         
         Ok(InteractionResponse {
-            message: format!("Interaction successful. Experience gained: 10"),
+            message: "Interaction successful. Experience gained: 10".to_string(),
             experience_gained: 10,
         })
     })
-}
-
-#[derive(CandidType, Clone, Deserialize)]
-pub struct InteractionResponse {
-    message: String,
-    experience_gained: u64,
 }
