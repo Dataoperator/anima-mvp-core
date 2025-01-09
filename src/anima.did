@@ -1,0 +1,39 @@
+type AnimaData = record {
+    owner: principal;
+    designation: text;
+    created_at: nat64;
+    level: nat64;
+    experience: nat64;
+    payment_memo: nat64;
+};
+
+type MintResult = record {
+    token_id: nat64;
+    designation: text;
+};
+
+type PaymentRecord = record {
+    principal: principal;
+    memo: nat64;
+    timestamp: nat64;
+    amount: nat64;
+    status: text;
+};
+
+type InteractionResponse = record {
+    message: text;
+    experience_gained: nat64;
+};
+
+service : {
+    // Core minting
+    register_payment: (principal, nat64) -> (variant { Ok; Err: text });
+    mint_anima: (principal, nat64) -> (variant { Ok: MintResult; Err: text });
+    
+    // Query functions
+    get_anima: (nat64) -> (opt AnimaData) query;
+    get_user_animas: (principal) -> (vec record { nat64; AnimaData }) query;
+    
+    // Neural interaction
+    interact: (nat64, opt text) -> (variant { Ok: InteractionResponse; Err: text });
+};
