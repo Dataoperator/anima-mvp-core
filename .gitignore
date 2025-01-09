@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.dfx/
+.env
+.env.*
+
+# Production
+dist/
+build/
+target/
+
+# Generated files
+src/declarations/*
+!src/declarations/anima/anima.did.ts
+Cargo.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System
+.DS_Store
+Thumbs.db
